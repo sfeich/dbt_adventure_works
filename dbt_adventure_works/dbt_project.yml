@@ -36,6 +36,8 @@ models:
       +materialized: view
     staging:
       +materialized: view
+    intermediate:
+      +materialized: view
 
 dispatch:
   - macro_namespace: dbt_utils
