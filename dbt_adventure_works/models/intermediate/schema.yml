@@ -1,0 +1,48 @@
+
+version: 2
+
+models:
+  - name: int_customer
+    description: "Intermediate view of customer, derived from stg_customer view"
+    columns:
+      - name: CustomerKey
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+      - name: CustomerAlternateKey
+        description: "The alternate key for this table"
+        data_tests:
+          - unique
+          - not_null
+      - name: GeographyKey
+        description: "Foreign key to link to primary key of DimGeography table"
+        data_tests:
+          - not_null
+      - name: MaritalStatus
+        description: "Marital status of customer"
+        data_tests:
+          - accepted_values:
+              values: ['Married', 'Single']
+      - name: Gender
+        description: "Gender of customer"
+        data_tests:
+          - accepted_values:
+              values: ['Male', 'Female']
+      - name: HouseOwnerFlag
+        description: "Indicates whether customer owns a house"
+        data_tests:
+          - accepted_values:
+              values: ['Yes', 'No']
+      - name: HasChildrenFlag
+        description: "Indicates whether customer has children"
+        data_tests:
+          - accepted_values:
+              values: ['Yes', 'No']
+      - name: CarOwnerFlag
+        description: "Indicates whether customer owns a car"
+        data_tests:
+          - accepted_values:
+              values: ['Yes', 'No']
+          
+
