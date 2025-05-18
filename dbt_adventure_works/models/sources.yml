@@ -6,3 +6,4 @@ sources:
     schema: dbo   # schema containing the source tables
     tables:       # table names as in the database
       - name: DimCustomer   
+      - name: DimProductSubcategory
