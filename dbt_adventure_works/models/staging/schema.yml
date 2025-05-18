@@ -10,6 +10,19 @@ models:
         data_tests:
           - unique
           - not_null
+  - name: stg_product_category
+    description: "Staging view of product category, derived from AdventureWorks core table DimProductCategory"
+    columns:
+      - name: ProductCategoryKey
+        description: "The primary key for this table. Can be linked to foreign key in stg_product_subcategory"
+        data_tests:
+          - unique
+          - not_null
+      - name: EnglishProductCategoryName
+        description: "Describes the product category (in English)"
+        data_tests:
+          - unique
+          - not_null
   - name: stg_product_subcategory
     description: "Staging view of product subcategory, derived from AdventureWorks core table DimProductSubcategory"
     columns:

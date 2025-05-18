@@ -5,6 +5,8 @@ sources:
     database: AdventureWorksDW2022   
     schema: dbo   # schema containing the source tables
     tables:       # table names as in the database
+      - name: DimCustomer 
+      - name: DimProductCategory  
       - name: DimCustomer   
       - name: DimProductSubcategory
       - name: DimProduct
