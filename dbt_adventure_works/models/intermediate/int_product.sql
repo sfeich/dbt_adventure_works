@@ -51,12 +51,12 @@ joined as (
       ,prd.ProductAlternateKey
       
       -- product & model names
-      ,prd.EnglishProductName
-      ,prd.EnglishDescription
+      ,prd.EnglishProductName as ProductName
+      ,prd.EnglishDescription as ProductDescription
       ,prd.ModelName
       ,prd.ProductLine
-      ,cat.EnglishProductCategoryName
-      ,subcat.EnglishProductSubcategoryName
+      ,cat.EnglishProductCategoryName as ProductCategory 
+      ,subcat.EnglishProductSubcategoryName as ProductSubcategory
 
       -- product qualities
       ,prd.StandardCost
