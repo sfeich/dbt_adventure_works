@@ -5,9 +5,56 @@ models:
   - name: stg_customer
     description: "Staging view of customer, derived from AdventureWorks core table DimCustomer"
     columns:
-      - name: id
+      - name: CustomerKey
         description: "The primary key for this table"
         data_tests:
           - unique
           - not_null
+  - name: stg_product_category
+    description: "Staging view of product category, derived from AdventureWorks core table DimProductCategory"
+    columns:
+      - name: ProductCategoryKey
+        description: "The primary key for this table. Can be linked to foreign key in stg_product_subcategory"
+        data_tests:
+          - unique
+          - not_null
+      - name: EnglishProductCategoryName
+        description: "Describes the product category (in English)"
+        data_tests:
+          - unique
+          - not_null
+  - name: stg_product_subcategory
+    description: "Staging view of product subcategory, derived from AdventureWorks core table DimProductSubcategory"
+    columns:
+      - name: ProductSubcategoryKey
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+      - name: ProductCategoryKey
+        description: "A foreign key to link to table DimProductSubcategory"
+        data_tests:
+          - not_null 
+      - name: EnglishProductSubcategoryName
+        description: "Describes product sub-category"
+        data_tests:
+          - not_null
+  - name: stg_product
+    description: "Staging view of product, derived from AdventureWorks core table DimProduct"
+    columns:
+      - name: ProductKey
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+      - name: ProductAlternateKey
+        description: "The alternate key for this table"
+        data_tests:
+          - not_null # only satsifies not nullness; alternate keys are not unique
+      - name: FinishedGoodsFlag
+        description: "Indicates whether a product is a finished good"
+        data_tests:
+          - accepted_values:
+              values: [0, 1]
+      
 
