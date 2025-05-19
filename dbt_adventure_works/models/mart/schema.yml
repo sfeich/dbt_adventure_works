@@ -63,5 +63,89 @@ models:
       - name: DateFirstPurchase
         description: "Date at which first items was purchased by customer (in format yyyy/mm/dd)"
         data_type: date
-          
+  
+  - name: dim_product
+    description: "Dimension table containing product information in mart layer, derived from int_product view"
+    config:
+      contract: {enforced: true}
+    columns:
+      - name: ProductKey
+        description: "The primary key for this table"
+        data_type: int 
+        data_tests:
+          - unique
+          - not_null
+      - name: ProductAlternateKey
+        description: "The alternate key for this table"
+        data_type: nvarchar(25)
+        data_tests:
+          - not_null # only satsifies not nullness; alternate keys are not unique
+      - name: ProductName
+        description: "Name of the product"
+        data_type: nvarchar(50)
+      - name: ProductDescription
+        description: "Description of the product"
+        data_type: nvarchar(400)
+      - name: ModelName
+        description: "Name of the model"
+        data_type: nvarchar(50)
+      - name: ProductLine
+        description: "Product line"
+        data_type: nchar(2)
+      - name: ProductCategory
+        description: "Category of the product"
+        data_type: nvarchar(50)
+      - name: ProductSubcategory
+        description: "Subcategory of the product"
+        data_type: nvarchar(50)
+      - name: StandardCost
+        description: "Standard cost of the product"
+        data_type: decimal
+      - name: Color 
+        description: "Color of the product"
+        data_type: nvarchar(15)
+      - name: Size
+        description: "Size of the product"
+        data_type: nvarchar(50)
+      - name: SizeRange 
+        description: "Size range of the product"
+        data_type: nvarchar(50)
+      - name: Weight 
+        description: "Weight of the product"
+        data_type: float
+      - name: WeightUnitMeasureCode
+        description: "Weight unit measure code"
+        data_type: nchar(3)
+      - name: SizeUnitMeasureCode
+        description: "Size unit measure code"
+        data_type: nchar(3)
+      - name: Class 
+        description: "Class of the product"
+        data_type: nchar(2)
+      - name: Style 
+        description: "Style of the product"
+        data_type: nchar(2)
+      - name: DaysToManufacture
+        description: "No. of days it takes product to get manufactured"
+        data_type: int
+      - name: SafetyStockLevel
+        description: "Safety stock level of the product"
+        data_type: smallint 
+      - name: ReorderPoint
+        description: "Point at which product needs to be reordered"
+        data_type: smallint
+      - name: ListPrice
+        description: "List price of the product"
+        data_type: decimal
+      - name: DealerPrice
+        description: "Dealer price of the product"
+        data_type: decimal
+      - name: FinishedGoodsFlag
+        description: "Indicates whether a product is a finished good"
+        data_type: varchar(3)
+        data_tests:
+          - accepted_values:
+              values: ["Yes", "No"]
+      
+
 
