@@ -5,7 +5,7 @@ models:
   - name: stg_customer
     description: "Staging view of customer, derived from AdventureWorks core table DimCustomer"
     columns:
-      - name: id
+      - name: CustomerKey
         description: "The primary key for this table"
         data_tests:
           - unique

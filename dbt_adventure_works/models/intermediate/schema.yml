@@ -44,5 +44,24 @@ models:
         data_tests:
           - accepted_values:
               values: ['Yes', 'No']
+  
+  - name: int_product
+    description: "Intermediate view of product, derived from views stg_product, stg_product_category, stg_product_subcategory."
+    columns:
+      - name: ProductKey
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+      - name: ProductAlternateKey
+        description: "The alternate key for this table"
+        data_tests:
+          - not_null # only satsifies not nullness; alternate keys are not unique
+      - name: FinishedGoodsFlag
+        description: "Indicates whether a product is a finished good"
+        data_tests:
+          - accepted_values:
+              values: ["Yes", "No"]
+
           
 
