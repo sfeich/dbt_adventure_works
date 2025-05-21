@@ -32,37 +32,75 @@ models:
           - type: foreign_key
         data_tests:
           - not_null
+      - name: FirstName
+        description: "First name of the customer"
+        data_type: nvarchar(50)
+      - name: MiddleName
+        description: "Middle name of the customer"
+        data_type: nvarchar(50)
+      - name: LastName
+        description: "Last name of the customer"
+        data_type: nvarchar(50)
+      - name: BirthDate
+        description: "Date of birth of customer (in format yyyy/mm/dd)"
+        data_type: date
+      - name: Age
+        description: "Age of the customer"
+        data_type: int  
       - name: MaritalStatus
         description: "Marital status of customer"
+        data_type: varchar(7)
         data_tests:
           - accepted_values:
               values: ['Married', 'Single']
       - name: Gender
         description: "Gender of customer"
+        data_type: varchar(6)
         data_tests:
           - accepted_values:
               values: ['Male', 'Female']
+      - name: YearlyIncome
+        description: "The yearly income of the customer"
+        data_type: money
+      - name: TotalChildren
+        description: "The total no. of children of the customer"
+        data_type: int
+      - name: NumberChildrenAtHome
+        description: "The total no. of children of the customer"
+        data_type: int
+      - name: EducationLevel
+        description: "The highest education obtained by the customer"
+        data_type: nvarchar(40)
       - name: HouseOwnerFlag
         description: "Indicates whether customer owns a house"
+        data_type: varchar(3)
         data_tests:
           - accepted_values:
               values: ['Yes', 'No']
       - name: HasChildrenFlag
         description: "Indicates whether customer has children"
+        data_type: varchar(3)
         data_tests:
           - accepted_values:
               values: ['Yes', 'No']
       - name: CarOwnerFlag
         description: "Indicates whether customer owns a car"
+        data_type: varchar(3)
         data_tests:
           - accepted_values:
               values: ['Yes', 'No']
-      - name: BirthDate
-        description: "Date of birth of customer (in format yyyy/mm/dd)"
-        data_type: date
+      - name: NumberCarsOwned
+        description: "The no. of cars owned by the customer"
+        data_type: int
       - name: DateFirstPurchase
         description: "Date at which first items was purchased by customer (in format yyyy/mm/dd)"
         data_type: date
+      - name: DaysSinceFirstPurchase
+        description: "The no. of days since the first purchase"
+        data_type: int 
+      - name: CommuteDistance
+        description: "The commute distance to work of the customer"
+        data_type: nvarchar(15)
   
   - name: dim_product
     description: "Dimension table containing product information in mart layer, derived from int_product view"
@@ -72,6 +110,9 @@ models:
       - name: ProductKey
         description: "The primary key for this table"
         data_type: int 
+        constraints:
+          - type: not_null
+          - type: primary_key
         data_tests:
           - unique
           - not_null
