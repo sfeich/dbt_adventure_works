@@ -51,10 +51,49 @@ models:
         description: "The alternate key for this table"
         data_tests:
           - not_null # only satsifies not nullness; alternate keys are not unique
+      - name: ProductSubcategoryKey
+        description: "The foreign key for the product subcategory"
+      - name: EnglishProductName
+        description: "The name of the product in English"
+      - name: EnglishDescription
+        description: "The product description in English"
+      - name: ModelName
+        description: "The name of the model"
+      - name: ProductLine
+        description: "The product line"
+      - name: StandardCost
+        description: "The standard cost price of the product"
+      - name: Color 
+        description: "The color of the product"
+      - name: Size 
+        description: "The size of the product"
+      - name: SizeRange 
+        description: "The size range of the product"
+      - name: Weight 
+        description: "The weight of the product"
+      - name: WeightUnitMeasureCode
+        description: "The weight unit measure code of the product"
+      - name: SizeUnitMeasureCode
+        description: "The size unit measure code"
+      - name: Class
+        description: "The class which the product belongs to"
+      - name: Style 
+        description: "The style of the product"
+      - name: DaysToManufacture
+        description: "The no. of days it takes to manufacture the product"
+      - name: SafetyStockLevel
+        description: "The amount of stock set as safety level for a product"
+      - name: ReorderPoint
+        description: "The amount of stock at which the product is reordered"
+      - name: ListPrice
+        description: "The list price of a product"
+      - name: DealerPrice
+        description: "The dealer pricer of a product"
       - name: FinishedGoodsFlag
         description: "Indicates whether a product is a finished good"
         data_tests:
           - accepted_values:
               values: [0, 1]
+      
       
 
