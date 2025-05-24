@@ -10,6 +10,56 @@ models:
         data_tests:
           - unique
           - not_null
+      - name: CustomerAlternateKey
+        description: "The alternate key for this table"
+        data_tests:
+          - unique
+          - not_null
+      - name: GeographyKey
+        description: "Foreign key to link to primary key of DimGeography table"
+        data_tests:
+          - not_null
+      - name: FirstName
+        description: "First name of the customer"      
+      - name: MiddleName
+        description: "Middle name of the customer"       
+      - name: LastName
+        description: "Last name of the customer"       
+      - name: BirthDate
+        description: "Date of birth of customer (in format yyyy/mm/dd)"
+      - name: MaritalStatus
+        description: "Marital status of customer"
+        data_tests:
+          - accepted_values:
+              values: ['M', 'S']
+      - name: Gender
+        description: "Gender of customer"
+        data_tests:
+          - accepted_values:
+              values: ['M', 'F']
+      - name: YearlyIncome
+        description: "The yearly income of the customer"
+      - name: TotalChildren
+        description: "The total no. of children of the customer"
+      - name: NumberChildrenAtHome
+        description: "The total no. of children of the customer"
+        data_type: int
+      - name: EnglishEducation
+        description: "The highest education obtained by the customer (in English)"
+      - name: HouseOwnerFlag
+        description: "Indicates whether customer owns a house"
+        data_tests:
+          - accepted_values:
+              values: [0, 1]
+      - name: NumberCarsOwned
+        description: "The no. of cars owned by the customer"
+      - name: DateFirstPurchase
+        description: "Date at which first items was purchased by customer (in format yyyy/mm/dd)"
+      - name: CommuteDistance
+        description: "The commute distance to work of the customer"
+ 
+ 
+
   - name: stg_product_category
     description: "Staging view of product category, derived from AdventureWorks core table DimProductCategory"
     columns:
@@ -23,6 +73,9 @@ models:
         data_tests:
           - unique
           - not_null
+  
+
+
   - name: stg_product_subcategory
     description: "Staging view of product subcategory, derived from AdventureWorks core table DimProductSubcategory"
     columns:
@@ -39,6 +92,9 @@ models:
         description: "Describes product sub-category"
         data_tests:
           - not_null
+  
+
+  
   - name: stg_product
     description: "Staging view of product, derived from AdventureWorks core table DimProduct"
     columns:
