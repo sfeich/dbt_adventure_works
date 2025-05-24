@@ -19,6 +19,16 @@ models:
         description: "Foreign key to link to primary key of DimGeography table"
         data_tests:
           - not_null
+      - name: FirstName
+        description: "First name of the customer"      
+      - name: MiddleName
+        description: "Middle name of the customer"       
+      - name: LastName
+        description: "Last name of the customer"       
+      - name: BirthDate
+        description: "Date of birth of customer (in format yyyy/mm/dd)"
+      - name: Age
+        description: "Age of the customer"
       - name: MaritalStatus
         description: "Marital status of customer"
         data_tests:
@@ -29,6 +39,36 @@ models:
         data_tests:
           - accepted_values:
               values: ['Male', 'Female']
+      - name: YearlyIncome
+        description: "The yearly income of the customer"
+      - name: TotalChildren
+        description: "The total no. of children of the customer"
+      - name: NumberChildrenAtHome
+        description: "The total no. of children of the customer"
+      - name: EducationLevel
+        description: "The highest education obtained by the customer (in English)"
+      - name: HouseOwnerFlag
+        description: "Indicates whether customer owns a house"
+        data_tests:
+          - accepted_values:
+              values: ['No', 'Yes']
+      - name: CarOwnerFlag
+        description: "Indicates whether customer owns a car"
+        data_tests:
+          - accepted_values:
+              values: ['No', 'Yes']
+      - name: NumberCarsOwned
+        description: "The no. of cars owned by the customer"
+      - name: DateFirstPurchase
+        description: "Date at which first items was purchased by customer (in format yyyy/mm/dd)"
+      - name: DaysSinceFirstPurchase
+        description: "The no. of days since the first purchase"
+      - name: CommuteDistance
+        description: "The commute distance to work of the customer"
+ 
+
+
+     
       - name: HouseOwnerFlag
         description: "Indicates whether customer owns a house"
         data_tests:
