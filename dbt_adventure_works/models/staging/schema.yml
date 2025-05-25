@@ -20,43 +20,140 @@ models:
         data_tests:
           - not_null
       - name: FirstName
-        description: "First name of the customer"      
+        description: "First name of the customer"
+        data_tests:
+          - not_null: # warn if null instances; only error if nulls exceed threshold
+              config: 
+                severity: error
+                error_if: ">10"
+                warn_if: ">0"
+          - dbt_expectations.expect_column_values_to_match_like_pattern_list:
+              like_pattern_list: ["%[A-Za-z]%"] # only allow alphabetic sequences
+              match_on: any 
       - name: MiddleName
         description: "Middle name of the customer"       
       - name: LastName
-        description: "Last name of the customer"       
+        description: "Last name of the customer"  
+        data_tests:
+          - not_null: # warn if null instances; only error if nulls exceed threshold
+              config: 
+                severity: error
+                error_if: ">10"
+                warn_if: ">0"
+          - dbt_expectations.expect_column_values_to_match_like_pattern_list:
+              like_pattern_list: ["%[A-Za-z]%"] # only allow alphabetic sequences
+              match_on: any      
       - name: BirthDate
         description: "Date of birth of customer (in format yyyy/mm/dd)"
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: date
       - name: MaritalStatus
         description: "Marital status of customer"
         data_tests:
+          - not_null: # warn if null instances; only error if nulls exceed threshold
+              config: 
+                severity: error
+                error_if: ">10"
+                warn_if: ">0"
           - accepted_values:
               values: ['M', 'S']
       - name: Gender
         description: "Gender of customer"
         data_tests:
+          - not_null: # warn if null instances; only error if nulls exceed threshold
+              config: 
+                severity: error
+                error_if: ">10"
+                warn_if: ">0"
           - accepted_values:
               values: ['M', 'F']
       - name: YearlyIncome
         description: "The yearly income of the customer"
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              strictly: false # adds an 'or equal to' to the comparison operator
+          - dbt_expectations.expect_column_values_to_be_within_n_stdevs:
+              sigma_threshold: 5 # warn if instances >5 sigma above mean; only error if >10 such instances
+              config: 
+                severity: error
+                error_if: ">10"
+                warn_if: ">0"
       - name: TotalChildren
         description: "The total no. of children of the customer"
+        data_tests:
+          - not_null: # warn if null instances; only error if nulls exceed threshold
+              config: 
+                severity: error
+                error_if: ">10"
+                warn_if: ">0"
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: tinyint
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 20
+              strictly: false # adds an 'or equal to' to the comparison operator
       - name: NumberChildrenAtHome
         description: "The total no. of children of the customer"
         data_type: int
+        data_tests:
+          - not_null: # warn if null instances; only error if nulls exceed threshold
+              config: 
+                severity: error
+                error_if: ">10"
+                warn_if: ">0"
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: tinyint
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 20
+              strictly: false # adds an 'or equal to' to the comparison operator
       - name: EnglishEducation
         description: "The highest education obtained by the customer (in English)"
+        data_tests:
+           - not_null: # warn if null instances; only error if nulls exceed threshold
+              config: 
+                severity: error
+                error_if: ">10"
+                warn_if: ">0"
       - name: HouseOwnerFlag
         description: "Indicates whether customer owns a house"
         data_tests:
+          - not_null: # warn if null instances; only error if nulls exceed threshold
+              config: 
+                severity: error
+                error_if: ">10"
+                warn_if: ">0"  
           - accepted_values:
               values: [0, 1]
       - name: NumberCarsOwned
         description: "The no. of cars owned by the customer"
+        data_tests:
+          - not_null: # warn if null instances; only error if nulls exceed threshold
+              config: 
+                severity: error
+                error_if: ">10"
+                warn_if: ">0"
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: tinyint
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 20
+              strictly: false # adds an 'or equal to' to the comparison operator
       - name: DateFirstPurchase
         description: "Date at which first items was purchased by customer (in format yyyy/mm/dd)"
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: date
       - name: CommuteDistance
         description: "The commute distance to work of the customer"
+        data_tests:
+           - not_null: # warn if null instances; only error if nulls exceed threshold
+              config: 
+                severity: error
+                error_if: ">10"
+                warn_if: ">0"  
  
  
 
