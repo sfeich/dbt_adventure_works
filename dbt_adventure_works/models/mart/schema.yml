@@ -16,6 +16,10 @@ models:
         data_tests:
           - unique
           - not_null
+          - dbt_utils.cardinality_equality:
+              field: CustomerKey
+              to: ref('int_customer')
+              # CustomerKey field in dim_customer is inherited from int_customer and must have same cardinality.
       - name: CustomerAlternateKey
         description: "The alternate key for this table"
         data_type: nvarchar(15)
@@ -25,6 +29,10 @@ models:
         data_tests:
           - unique
           - not_null
+          - dbt_utils.cardinality_equality:
+              field: CustomerAlternateKey
+              to: ref('int_customer')
+              # CustomerAlternateKey field in dim_customer is inherited from int_customer and must have same cardinality.
       - name: GeographyKey
         description: "Foreign key to link to primary key of DimGeography table"
         data_type: int
@@ -32,76 +40,202 @@ models:
           - type: foreign_key
         data_tests:
           - not_null
+          - dbt_utils.cardinality_equality:
+              field: GeographyKey
+              to: ref('int_customer')
+              # GeographyKeyKey field in dim_customer is inherited from int_customer and must have same cardinality.
       - name: FirstName
         description: "First name of the customer"
         data_type: nvarchar(50)
+        data_tests:
+          - not_null: # warn if null instances; only error if nulls exceed threshold
+              config: 
+                severity: error
+                error_if: ">10"
+                warn_if: ">0"
+          - dbt_expectations.expect_column_values_to_match_like_pattern_list:
+              like_pattern_list: ["%[A-Za-z]%"] # only allow alphabetic sequences
+              match_on: any      
       - name: MiddleName
         description: "Middle name of the customer"
         data_type: nvarchar(50)
       - name: LastName
         description: "Last name of the customer"
         data_type: nvarchar(50)
+        data_tests:
+          - not_null: # warn if null instances; only error if nulls exceed threshold
+              config: 
+                severity: error
+                error_if: ">10"
+                warn_if: ">0"
+          - dbt_expectations.expect_column_values_to_match_like_pattern_list:
+              like_pattern_list: ["%[A-Za-z]%"] # only allow alphabetic sequences
+              match_on: any    
       - name: BirthDate
         description: "Date of birth of customer (in format yyyy/mm/dd)"
         data_type: date
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: date
       - name: Age
         description: "Age of the customer"
         data_type: int  
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list: [tinyint, smallint, int]
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 125
+              strictly: false # adds an 'or equal to' to the comparison operator
       - name: MaritalStatus
         description: "Marital status of customer"
         data_type: varchar(7)
         data_tests:
+          - not_null: # warn if null instances; only error if nulls exceed threshold
+              config: 
+                severity: error
+                error_if: ">10"
+                warn_if: ">0"
           - accepted_values:
               values: ['Married', 'Single']
       - name: Gender
         description: "Gender of customer"
         data_type: varchar(6)
         data_tests:
+          - not_null: # warn if null instances; only error if nulls exceed threshold
+              config: 
+                severity: error
+                error_if: ">10"
+                warn_if: ">0"
           - accepted_values:
               values: ['Male', 'Female']
       - name: YearlyIncome
         description: "The yearly income of the customer"
         data_type: money
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              strictly: false # adds an 'or equal to' to the comparison operator
+          - dbt_expectations.expect_column_values_to_be_within_n_stdevs:
+              sigma_threshold: 5 # warn if instances >5 sigma above mean; only error if >10 such instances
+              config: 
+                severity: error
+                error_if: ">10"
+                warn_if: ">0"
       - name: TotalChildren
         description: "The total no. of children of the customer"
         data_type: int
+        data_tests:
+          - not_null: # warn if null instances; only error if nulls exceed threshold
+              config: 
+                severity: error
+                error_if: ">10"
+                warn_if: ">0"
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: int
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 20
+              strictly: false # adds an 'or equal to' to the comparison operator
       - name: NumberChildrenAtHome
         description: "The total no. of children of the customer"
         data_type: int
+        data_tests:
+          - not_null: # warn if null instances; only error if nulls exceed threshold
+              config: 
+                severity: error
+                error_if: ">10"
+                warn_if: ">0"
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: int
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 20
+              strictly: false # adds an 'or equal to' to the comparison operator
       - name: EducationLevel
         description: "The highest education obtained by the customer"
         data_type: nvarchar(40)
+        data_tests:
+           - not_null: # warn if null instances; only error if nulls exceed threshold
+              config: 
+                severity: error
+                error_if: ">10"
+                warn_if: ">0"
       - name: HouseOwnerFlag
         description: "Indicates whether customer owns a house"
         data_type: varchar(3)
         data_tests:
+          - not_null: # warn if null instances; only error if nulls exceed threshold
+              config: 
+                severity: error
+                error_if: ">10"
+                warn_if: ">0"  
           - accepted_values:
               values: ['Yes', 'No']
       - name: HasChildrenFlag
         description: "Indicates whether customer has children"
         data_type: varchar(3)
         data_tests:
+          - not_null: # warn if null instances; only error if nulls exceed threshold
+              config: 
+                severity: error
+                error_if: ">10"
+                warn_if: ">0"  
           - accepted_values:
               values: ['Yes', 'No']
       - name: CarOwnerFlag
         description: "Indicates whether customer owns a car"
         data_type: varchar(3)
         data_tests:
+          - not_null: # warn if null instances; only error if nulls exceed threshold
+              config: 
+                severity: error
+                error_if: ">10"
+                warn_if: ">0"  
           - accepted_values:
               values: ['Yes', 'No']
       - name: NumberCarsOwned
         description: "The no. of cars owned by the customer"
         data_type: int
+        data_tests:
+          - not_null: # warn if null instances; only error if nulls exceed threshold
+              config: 
+                severity: error
+                error_if: ">10"
+                warn_if: ">0"
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: int
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 20
+              strictly: false # adds an 'or equal to' to the comparison operator
       - name: DateFirstPurchase
         description: "Date at which first items was purchased by customer (in format yyyy/mm/dd)"
         data_type: date
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: date
       - name: DaysSinceFirstPurchase
         description: "The no. of days since the first purchase"
         data_type: int 
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list: [int]
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 100000
+              strictly: false # adds an 'or equal to' to the comparison operator
       - name: CommuteDistance
         description: "The commute distance to work of the customer"
         data_type: nvarchar(15)
+        data_tests:
+           - not_null: # warn if null instances; only error if nulls exceed threshold
+              config: 
+                severity: error
+                error_if: ">10"
+                warn_if: ">0"  
   
+
   - name: dim_product
     description: "Dimension table containing product information in mart layer, derived from int_product view"
     config:
@@ -116,14 +250,26 @@ models:
         data_tests:
           - unique
           - not_null
+          - dbt_utils.cardinality_equality:
+              field: ProductKey
+              to: ref('stg_product')
+              # ProductKey field in int_product is inherited from stg_product and must have same cardinality.
       - name: ProductAlternateKey
         description: "The alternate key for this table"
         data_type: nvarchar(25)
         data_tests:
           - not_null # only satsifies not nullness; alternate keys are not unique
+          - dbt_utils.cardinality_equality:
+              field: ProductAlternateKey
+              to: ref('stg_product')
+              # ProductAlternateKey field in int_product is inherited from stg_product and must have same cardinality.
       - name: ProductName
         description: "Name of the product"
         data_type: nvarchar(50)
+        data_tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: nvarchar
       - name: ProductDescription
         description: "Description of the product"
         data_type: nvarchar(400)
@@ -169,22 +315,47 @@ models:
       - name: DaysToManufacture
         description: "No. of days it takes product to get manufactured"
         data_type: int
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: int
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              strictly: false # adds an 'or equal to' to the comparison operator
       - name: SafetyStockLevel
         description: "Safety stock level of the product"
         data_type: smallint 
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list: [smallint]
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              strictly: false # adds an 'or equal to' to the comparison operator
       - name: ReorderPoint
         description: "Point at which product needs to be reordered"
         data_type: smallint
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list: [smallint]
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              strictly: false # adds an 'or equal to' to the comparison operator
       - name: ListPrice
         description: "List price of the product"
         data_type: decimal
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list: [decimal]
       - name: DealerPrice
         description: "Dealer price of the product"
         data_type: decimal
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list: [decimal]
       - name: FinishedGoodsFlag
         description: "Indicates whether a product is a finished good"
         data_type: varchar(3)
         data_tests:
+          - not_null
           - accepted_values:
               values: ["Yes", "No"]
       
