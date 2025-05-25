@@ -9,3 +9,6 @@ sources:
       - name: DimProductCategory  
       - name: DimProductSubcategory
       - name: DimProduct
+      - name: DimDate 
+      - name: FactInternetSales
+      - name: FactInternetSalesReason

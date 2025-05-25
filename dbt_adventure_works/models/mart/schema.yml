@@ -358,6 +358,168 @@ models:
           - not_null
           - accepted_values:
               values: ["Yes", "No"]
+  
+
+  - name: dim_date
+    description: "Dimension table containing date information in mart layer, derived from int_date view"
+    config:
+      contract: {enforced: true}
+    columns:
+      - name: DateKey
+        description: "The primary key for this table"
+        data_type: int 
+        constraints:
+          - type: not_null
+          - type: primary_key
+        data_tests:
+          - unique
+          - not_null
+          - dbt_utils.cardinality_equality:
+              field: DateKey
+              to: ref('int_date')
+              # DateKey field in stg_date is inherited from DimDate table in dbo schema and must have same cardinality.
+      - name: FullDateAlternateKey
+        description: "The alternate key for this table giving the full date in format yyyy-mm-dd"
+        data_type: date
+        constraints:
+          - type: not_null
+        data_tests:
+          - unique 
+      - name: DayNameOfWeek
+        description: "Name of the weekday (in English)"
+        data_type: nvarchar(10)
+      - name: MonthName
+        description: "Name of the month (in English)"
+        data_type: nvarchar(10)
+      - name: DayNumberOfWeek
+        description: "The day no. of the week (commencing on Sunday, i.e., Sunday = 1)"
+        data_type: tinyint
+        data_tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list: [smallint, tinyint, int]
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 1
+              max_value: 7
+              strictly: false # adds an 'or equal to' to the comparison operator
+      - name: DayNumberOfMonth
+        description: "The day no. of the month"
+        data_type: tinyint
+        data_tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list: [smallint, tinyint, int]
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 1
+              max_value: 31
+              strictly: false # adds an 'or equal to' to the comparison operator
+      - name: DayNumberOfYear
+        description: "The day no. of the year"
+        data_type: smallint
+        data_tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list: [smallint, tinyint, int]
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 1
+              max_value: 366
+              strictly: false # adds an 'or equal to' to the comparison operator
+      - name: WeekNumberOfYear 
+        description: "The week no. of the year"
+        data_type: tinyint
+        data_tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list: [smallint, tinyint, int]
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 1
+              max_value: 53
+              strictly: false # adds an 'or equal to' to the comparison operator
+      - name: MonthNumberOfYear
+        description: "The month no. of the year"
+        data_type: tinyint
+        data_tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list: [smallint, tinyint, int]
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 1
+              max_value: 12
+              strictly: false # adds an 'or equal to' to the comparison operator
+      - name: CalendarQuarter
+        description: "The quarter no. of the calendar year"
+        data_type: tinyint
+        data_tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list: [smallint, tinyint, int]
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 1
+              max_value: 4
+              strictly: false # adds an 'or equal to' to the comparison operator
+      - name: CalendarSemester
+        description: "The semester no. of the calendar year"
+        data_type: tinyint
+        data_tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list: [smallint, tinyint, int]
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 1
+              max_value: 2
+              strictly: false # adds an 'or equal to' to the comparison operator
+      - name: CalendarYear
+        description: "The calendar year"
+        data_type: smallint 
+        data_tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list: [smallint, tinyint, int]
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 1900
+              max_value: 2050
+              strictly: false # adds an 'or equal to' to the comparison operator
+      - name: FiscalQuarter
+        description: "The quarter no. of the fiscal year"
+        data_type: tinyint
+        data_tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list: [smallint, tinyint, int]
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 1
+              max_value: 4
+              strictly: false # adds an 'or equal to' to the comparison operator
+      - name: FiscalSemester
+        description: "The semester no. of the fiscal year"
+        data_type: tinyint
+        data_tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list: [smallint, tinyint, int]
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 1
+              max_value: 2
+              strictly: false # adds an 'or equal to' to the comparison operator
+      - name: FiscalYear
+        description: "The fiscal year"
+        data_type: smallint
+        data_tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list: [smallint, tinyint, int]
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 1900
+              max_value: 2050
+              strictly: false # adds an 'or equal to' to the comparison operator
+      - name: WeekdayFlag
+        description: "Indicates whether day is a weekday (Mon-Fri)"
+        data_type: varchar(3)
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ["Yes", "No"]
+
       
 
 
