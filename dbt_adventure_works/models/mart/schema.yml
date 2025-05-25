@@ -520,6 +520,113 @@ models:
           - accepted_values:
               values: ["Yes", "No"]
 
+
+  - name: fct_internet_sales
+    description: "Fact table of internet sales in mart layer, derived from view int_internet_sales"
+    config:
+      contract: {enforced: true}
+    columns:
+      - name: SalesOrderNumber
+        description: "Part of the primary key for this table"
+        data_type: nvarchar(20)
+        data_tests:
+          - not_null
+      - name: SalesOrderLineNumber
+        description: "Part of the primary key for this table"
+        data_type: tinyint
+        data_tests:
+          - not_null
+      - name: ProductKey
+        description: "Foreign key for this table linking to primary key of dim_product"
+        data_type: int
+        data_tests:
+          - not_null
+      - name: CustomerKey
+        description: "Foreign key for this table linking to primary key of dim_customer"
+        data_type: int
+        data_tests:
+          - not_null
+      - name: PromotionKey
+        description: "Foreign key for this table linking to primary key of dim_promotion"
+        data_type: int
+        data_tests:
+          - not_null
+      - name: CurrencyKey
+        description: "Foreign key for this table linking to primary key of dim_currency"
+        data_type: int
+        data_tests:
+          - not_null
+      - name: SalesTerritoryKey
+        description: "Foreign key for this table linking to primary key of dim_sales_territory"
+        data_type: int
+        data_tests:
+          - not_null
+      - name: SalesReasonKey
+        description: "Foreign key for this table linking to primary key of DimSalesReasonKey"
+        data_type: int
+      - name: OrderDateKey
+        description: "Foreign key for this table linking to primary key of dim_date"
+        data_type: int
+        data_tests:
+          - not_null
+      - name: DueDateKey
+        description: "Foreign key for this table linking to primary key of dim_date"
+        data_type: int
+        data_tests:
+          - not_null
+      - name: ShipDateKey
+        description: "Foreign key for this table linking to primary key of dim_date"
+        data_type: int
+        data_tests:
+          - not_null
+      - name: OrderQuantity
+        description: "The quantity ordered of the sales item"
+        data_type: smallint
+        data_tests:
+          - not_null
+      - name: UnitPrice
+        description: "The unit price of the sales item"
+        data_type: decimal
+        data_tests:
+          - not_null
+      - name: SalesAmount
+        description: "The sales amount of the sales item"
+        data_type: decimal
+        data_tests:
+          - not_null
+      - name: ExtendedAmount
+        description: "The extended amount of the sales item"
+        data_type: decimal
+        data_tests:
+          - not_null
+      - name: DiscountAmount
+        description: "The discount amount of the sales item"
+        data_type: float
+        data_tests:
+          - not_null
+      - name: UnitPriceDiscountPct
+        description: "The discount percentage applied to the unit price of the sales item"
+        data_type: float
+        data_tests:
+          - not_null
+      - name: TotalProductCost
+        description: "The total product cost of the sales item"
+        data_type: decimal
+        data_tests:
+          - not_null
+      - name: ProductStandardCost  
+        description: "The standard product cost of the sales item"
+        data_type: decimal
+        data_tests:
+          - not_null
+      - name: TaxAmt
+        description: "The tax amount for the sales item"
+        data_type: decimal
+      - name: Freight
+        description: "The freight cost for the sales item"
+        data_type: decimal
+
+
       
 
 
