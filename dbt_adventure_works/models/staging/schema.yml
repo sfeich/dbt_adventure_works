@@ -208,6 +208,10 @@ models:
         description: "The foreign key for the product subcategory"
       - name: EnglishProductName
         description: "The name of the product in English"
+        data_tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: nvarchar
       - name: EnglishDescription
         description: "The product description in English"
       - name: ModelName
@@ -234,19 +238,45 @@ models:
         description: "The style of the product"
       - name: DaysToManufacture
         description: "The no. of days it takes to manufacture the product"
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: int
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              strictly: false # adds an 'or equal to' to the comparison operator
       - name: SafetyStockLevel
         description: "The amount of stock set as safety level for a product"
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list: [smallint, int]
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              strictly: false # adds an 'or equal to' to the comparison operator
       - name: ReorderPoint
         description: "The amount of stock at which the product is reordered"
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list: [smallint, int]
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              strictly: false # adds an 'or equal to' to the comparison operator
       - name: ListPrice
         description: "The list price of a product"
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list: [decimal, money]
       - name: DealerPrice
         description: "The dealer pricer of a product"
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list: [decimal, money]
       - name: FinishedGoodsFlag
         description: "Indicates whether a product is a finished good"
         data_tests:
+          - not_null
           - accepted_values:
               values: [0, 1]
+          
       
       
 
