@@ -439,6 +439,89 @@ models:
           - accepted_values:
               values: ["Yes", "No"]
 
+  
+  - name: int_internet_sales
+    description: "Intermediate view of internet sales, derived from AdventureWorks core table FactInternetSales"
+    columns:
+      - name: SalesOrderNumber
+        description: "Part of the primary key for this table"
+        data_tests:
+          - not_null
+      - name: SalesOrderLineNumber
+        description: "Part of the primary key for this table"
+        data_tests:
+          - not_null
+      - name: ProductKey
+        description: "Foreign key for this table linking to primary key of dim_product"
+        data_tests:
+          - not_null
+      - name: CustomerKey
+        description: "Foreign key for this table linking to primary key of dim_customer"
+        data_tests:
+          - not_null
+      - name: PromotionKey
+        description: "Foreign key for this table linking to primary key of dim_promotion"
+        data_tests:
+          - not_null
+      - name: CurrencyKey
+        description: "Foreign key for this table linking to primary key of dim_currency"
+        data_tests:
+          - not_null
+      - name: SalesTerritoryKey
+        description: "Foreign key for this table linking to primary key of dim_sales_territory"
+        data_tests:
+          - not_null
+      - name: SalesReasonKey
+        description: "Foreign key for this table linking to primary key of DimSalesReasonKey"
+      - name: OrderDateKey
+        description: "Foreign key for this table linking to primary key of dim_date"
+        data_tests:
+          - not_null
+      - name: DueDateKey
+        description: "Foreign key for this table linking to primary key of dim_date"
+        data_tests:
+          - not_null
+      - name: ShipDateKey
+        description: "Foreign key for this table linking to primary key of dim_date"
+        data_tests:
+          - not_null
+      - name: OrderQuantity
+        description: "The quantity ordered of the sales item"
+        data_tests:
+          - not_null
+      - name: UNitPrice
+        description: "The unit price of the sales item"
+        data_tests:
+          - not_null
+      - name: SalesAmount
+        description: "The sales amount of the sales item"
+        data_tests:
+          - not_null
+      - name: ExtendedAmount
+        description: "The extended amount of the sales item"
+        data_tests:
+          - not_null
+      - name: DiscountAmount
+        description: "The discount amount of the sales item"
+        data_tests:
+          - not_null
+      - name: UnitPriceDiscountPct
+        description: "The discount percentage applied to the unit price of the sales item"
+        data_tests:
+          - not_null
+      - name: TotalProductCost
+        description: "The total product cost of the sales item"
+        data_tests:
+          - not_null
+      - name: ProductStandardCost  
+        description: "The standard product cost of the sales item"
+        data_tests:
+          - not_null
+      - name: TaxAmt
+        description: "The tax amount for the sales item"
+      - name: Freight
+        description: "The freight cost for the sales item"
+
           
       
 
