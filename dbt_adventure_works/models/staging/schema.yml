@@ -10,6 +10,10 @@ models:
         data_tests:
           - unique
           - not_null
+          - dbt_utils.cardinality_equality:
+              field: CustomerKey
+              to: source('sql-server-on-prem', 'DimCustomer')
+              # CustomerKey field in stg_customer is inherited from DimCustomer table in dbo schema and must have same cardinality.
       - name: CustomerAlternateKey
         description: "The alternate key for this table"
         data_tests:
@@ -165,6 +169,10 @@ models:
         data_tests:
           - unique
           - not_null
+          - dbt_utils.cardinality_equality:
+              field: ProductCategoryKey
+              to: source('sql-server-on-prem', 'DimProductCategory')
+              # ProductCategoryKey field in stg_product_category is inherited from DimProductCategory table in dbo schema and must have same cardinality.
       - name: EnglishProductCategoryName
         description: "Describes the product category (in English)"
         data_tests:
@@ -181,6 +189,10 @@ models:
         data_tests:
           - unique
           - not_null
+          - dbt_utils.cardinality_equality:
+              field: ProductSubcategoryKey
+              to: source('sql-server-on-prem', 'DimProductSubcategory')
+              # ProductSubcategoryKey field in stg_product_subcategory is inherited from DimProductSubcategory table in dbo schema and must have same cardinality.
       - name: ProductCategoryKey
         description: "A foreign key to link to table DimProductSubcategory"
         data_tests:
@@ -200,6 +212,10 @@ models:
         data_tests:
           - unique
           - not_null
+          - dbt_utils.cardinality_equality:
+              field: ProductKey
+              to: source('sql-server-on-prem', 'DimProduct')
+              # ProductKey field in stg_product is inherited from DimProduct table in dbo schema and must have same cardinality.
       - name: ProductAlternateKey
         description: "The alternate key for this table"
         data_tests:
