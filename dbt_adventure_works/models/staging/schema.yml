@@ -534,7 +534,27 @@ models:
         description: "Foreign key for this table linking to primary key of DimSalesReasonKey"
         data_tests:
           - not_null
-      
+
+  - name: stg_sales_reason
+    description: "Staging view of sales reason, derived from AdventureWorks core table DimSalesReason"
+    columns:
+      - name: SalesReasonKey
+        description: "Primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+          - dbt_utils.cardinality_equality:
+              field: SalesReasonKey
+              to: source('sql-server-on-prem', 'DimSalesReason')
+      - name: SalesReasonName
+        description: "Describes the sales reason. Sub-category of SalesReasonReasonType"
+        data_tests:
+          - not_null
+      - name: SalesReasonReasonType
+        description: "Describes the type of sales reason"
+        data_tests:
+          - not_null
+
       
           
       
