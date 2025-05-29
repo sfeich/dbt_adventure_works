@@ -4,6 +4,33 @@
 ]) }},
 
 
+
+sales_reason_row_number as (
+
+    select res.*,
+        row_number() over (
+        partition by res.SalesOrderNumber, res.SalesOrderLineNumber
+        order by res.SalesReasonKey) as row_number
+    
+    from sales_reason as res
+
+),
+
+
+sales_reason_count as (
+
+    select SalesOrderNumber
+       ,SalesOrderLineNumber
+       ,count(*) as NoOfSalesReasons
+
+    from sales_reason 
+
+    group by SalesOrderNumber
+       ,SalesOrderLineNumber
+
+),
+
+
 joined as (
 
 
@@ -19,7 +46,8 @@ joined as (
         ,bas.PromotionKey
         ,bas.CurrencyKey
         ,bas.SalesTerritoryKey
-        ,res.SalesReasonKey
+        -- default value 0 for records with absent sales reason
+        ,coalesce(res.SalesReasonKey,0) as SalesReasonKey
         ,bas.OrderDateKey
         ,bas.DueDateKey
         ,bas.ShipDateKey
@@ -35,12 +63,17 @@ joined as (
         ,bas.ProductStandardCost  
         ,bas.TaxAmt
         ,bas.Freight
+        ,coalesce(cnt.NoOfSalesReasons,0) as NoOfSalesReasons
 
 
     from sales_base as bas 
-       left join sales_reason as res 
+       left join sales_reason_row_number as res 
           on bas.SalesOrderNumber = res.SalesOrderNumber 
-             and bas.SalesOrderLineNumber = res.SalesOrderLineNumber     
+             and bas.SalesOrderLineNumber = res.SalesOrderLineNumber 
+             and res.row_number = 1 
+       left join sales_reason_count as cnt
+          on bas.SalesOrderNumber = cnt.SalesOrderNumber 
+             and bas.SalesOrderLineNumber = cnt.SalesOrderLineNumber 
 
 
 )
@@ -50,3 +83,10 @@ joined as (
 select *
 
 from joined
+
+
+
+
+
+
+
