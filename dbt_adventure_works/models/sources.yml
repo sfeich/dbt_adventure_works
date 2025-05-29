@@ -12,3 +12,4 @@ sources:
       - name: DimDate 
       - name: FactInternetSales
       - name: FactInternetSalesReason
+      - name: DimSalesReason

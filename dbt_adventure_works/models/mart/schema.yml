@@ -633,6 +633,28 @@ models:
         data_tests:
           - not_null
 
+  - name: dim_sales_reason
+    description: "Dimension table in mart layer, derived from int_sales_reason"
+    config:
+      contract: {enforced: true}
+    columns:
+      - name: SalesReasonKey
+        description: "Primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+          - dbt_utils.cardinality_equality:
+              field: SalesReasonKey
+              to: ref('int_sales_reason')
+      - name: SalesReasonName
+        description: "Describes the sales reason. Sub-category of SalesReasonType"
+        data_tests:
+          - not_null        
+      - name: SalesReasonType
+        description: "Describes the type of sales reason"
+        data_tests:
+          - not_null
+
 
       
 
