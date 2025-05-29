@@ -564,6 +564,8 @@ models:
       - name: SalesReasonKey
         description: "Foreign key for this table linking to primary key of DimSalesReasonKey"
         data_type: int
+        data_tests:
+          - not_null
       - name: OrderDateKey
         description: "Foreign key for this table linking to primary key of dim_date"
         data_type: int
@@ -625,6 +627,11 @@ models:
       - name: Freight
         description: "The freight cost for the sales item"
         data_type: decimal
+      - name: NoOfSalesReasons
+        description: "The no. of different sales reason recorded for the sales order. The sales reason key links to the primary sales reason."
+        data_type: int
+        data_tests:
+          - not_null
 
 
       

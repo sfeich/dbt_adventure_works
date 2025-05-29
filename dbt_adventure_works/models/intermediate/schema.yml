@@ -472,7 +472,9 @@ models:
         data_tests:
           - not_null
       - name: SalesReasonKey
-        description: "Foreign key for this table linking to primary key of DimSalesReasonKey"
+        description: "Foreign key for this table linking to primary key of DimSalesReasonKey. Denotes the primary sales reason recorded."
+        data_tests:
+          - not_null
       - name: OrderDateKey
         description: "Foreign key for this table linking to primary key of dim_date"
         data_tests:
@@ -521,6 +523,10 @@ models:
         description: "The tax amount for the sales item"
       - name: Freight
         description: "The freight cost for the sales item"
+      - name: NoOfSalesReasons
+        description: "The no. of different sales reason recorded for the sales order. The sales reason key links to the primary sales reason."
+        data_tests:
+          - not_null
 
           
       
