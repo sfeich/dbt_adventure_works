@@ -1,0 +1,32 @@
+dbt_adventure_works:
+  target: dev # default target
+  outputs:
+    dev:
+      type: sqlserver
+      driver: 'ODBC Driver 18 for SQL Server' # ODBC Driver installed on system
+      server: 172.26.112.1
+      port: 1433
+      database: AdventureWorksDW2022
+      schema: reporting
+      user: "{{ env_var('DBT_USER') }}"
+      password: "{{ env_var('DBT_PASSWORD') }}"
+      trust_cert: true
+      login_timeout: 60
+      connection_timeout: 60
+      query_timeout: 180
+    prod: 
+      type: sqlserver
+      driver: 'ODBC Driver 18 for SQL Server' # ODBC Driver installed on system
+      server: sql-prod-adventure-works.database.windows.net
+      port: 1433
+      database: sqldb-prod-adventure-works
+      schema: reporting
+      user: "{{ env_var('AZ_SQL_USER') }}"
+      password: "{{ env_var('AZ_SQL_PASSWORD') }}"
+      encrypt: true
+      trust_cert: true
+      login_timeout: 60
+      connection_timeout: 60
+      query_timeout: 180
+
+    
