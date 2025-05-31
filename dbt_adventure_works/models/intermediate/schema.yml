@@ -536,6 +536,10 @@ models:
         data_tests:
           - unique
           - not_null
+          - cardinality_difference_unequal_to_n:
+              field: SalesReasonKey
+              compare_to:  ref('stg_sales_reason')
+              n: 1 # int_sales_reason must have exactly 1 record more than stg_sales_reason
       - name: SalesReasonName
         description: "Describes the sales reason. Sub-category of SalesReasonType"
         data_tests:

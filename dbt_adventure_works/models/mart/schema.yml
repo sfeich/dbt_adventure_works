@@ -647,6 +647,10 @@ models:
           - dbt_utils.cardinality_equality:
               field: SalesReasonKey
               to: ref('int_sales_reason')
+          - cardinality_difference_unequal_to_n:
+              field: SalesReasonKey
+              compare_to:  ref('stg_sales_reason')
+              n: 1 # int_sales_reason must have exactly 1 record more than stg_sales_reason
       - name: SalesReasonName
         description: "Describes the sales reason. Sub-category of SalesReasonType"
         data_type: nvarchar(50)
