@@ -38,6 +38,9 @@ models:
       +materialized: view
     mart: 
       +materialized: table
+      +as_columnstore: False
+
+
 
 dispatch:
   - macro_namespace: dbt_utils
