@@ -6,6 +6,7 @@ models:
     description: "Dimension table containing customer information in mart layer, derived from int_customer view"
     config:
       contract: {enforced: true}
+      post_hook: "{{ create_clustered_index(columns=['CustomerKey'], unique=True) }}"
     columns:
       - name: CustomerKey
         description: "The primary key for this table"
@@ -240,6 +241,7 @@ models:
     description: "Dimension table containing product information in mart layer, derived from int_product view"
     config:
       contract: {enforced: true}
+      post_hook: "{{ create_clustered_index(columns=['ProductKey'], unique=True) }}"
     columns:
       - name: ProductKey
         description: "The primary key for this table"
@@ -364,6 +366,7 @@ models:
     description: "Dimension table containing date information in mart layer, derived from int_date view"
     config:
       contract: {enforced: true}
+      post_hook: "{{ create_clustered_index(columns=['DateKey'], unique=True) }}"
     columns:
       - name: DateKey
         description: "The primary key for this table"
@@ -525,6 +528,14 @@ models:
     description: "Fact table of internet sales in mart layer, derived from view int_internet_sales"
     config:
       contract: {enforced: true}
+      post_hook: ["{{ create_clustered_index(columns=['SalesOrderNumber', 'SalesOrderLineNumber'], unique=True) }}",
+                  "{{ create_nonclustered_index(columns = ['ProductKey','CustomerKey','PromotionKey','CurrencyKey','SalesTerritoryKey','SalesReasonKey','OrderDateKey','DueDateKey','ShipDateKey']) }}"
+                 ]
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - SalesOrderNumber
+            - SalesOrderLineNumber
     columns:
       - name: SalesOrderNumber
         description: "Part of the primary key for this table"
@@ -637,6 +648,7 @@ models:
     description: "Dimension table in mart layer, derived from int_sales_reason"
     config:
       contract: {enforced: true}
+      post_hook: "{{ create_clustered_index(columns=['SalesReasonKey'], unique=True) }}"
     columns:
       - name: SalesReasonKey
         description: "Primary key for this table"
