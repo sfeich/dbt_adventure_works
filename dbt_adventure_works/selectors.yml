@@ -1,0 +1,139 @@
+selectors:
+
+
+# model types
+
+  - name: views
+    description: "All models that are views"
+    definition:
+      method: config.materialized
+      value: view
+  
+  - name: tables
+    description: "All models that are tables"
+    definition:
+      method: config.materialized
+      value: table
+
+  - name: dimensions
+    description: "All models that represent dimension tables in the mart layer"
+    definition:
+      intersection:
+        - method: config.materialized
+          value: table
+        - method: file
+          value: "*dim*"
+  
+  - name: facts
+    description: "All models that represent fact tables in the fact table"
+    definition:
+      intersection:
+        - method: config.materialized
+          value: table
+        - method: file
+          value: "*fct*"
+
+
+
+# load patterns 
+
+  - name: incremental_models
+    description: "All models that use an incremental loading pattern"
+    definition:
+      method: config.materialized
+      value: incremental
+
+
+
+# tests 
+
+  - name: singular_tests
+    description: "Tests that are singular"
+    definition:
+      method: test_type
+      value: singular
+
+  - name: generic_tests
+    description: "Tests that are singular"
+    definition:
+      method: test_type
+      value: generic
+  
+  - name: uniqueness_tests
+    description: "Uniqueness tests"
+    definition:
+      intersection:
+        # inherits from parent selector
+        - method: selector
+          value: generic_tests
+        # added condition
+        - method: test_name
+          value: unique
+
+  - name: not_null_tests
+    description: "Not-null tests"
+    definition:
+      intersection:
+        # inherits from parent selector
+        - method: selector
+          value: generic_tests
+        # added condition
+        - method: test_name
+          value: not_null
+
+  - name: accepted_values_tests
+    description: "Accepted values range tests"
+    definition:
+      intersection:
+        # inherits from parent selector
+        - method: selector
+          value: generic_tests
+        # added condition
+        - method: test_name
+          value: accepted_values
+
+  - name: utils_tests
+    description: "Generic tests from the dbt utils package"
+    definition:
+      intersection:
+        # inherits from parent selector
+        - method: selector
+          value: generic_tests
+        # added condition
+        - method: file
+          value: "*dbt_utils*"
+  
+  - name: expectations_tests
+    description: "Generic tests from the dbt expectations package"
+    definition:
+      intersection:
+        # inherits from parent selector
+        - method: selector
+          value: generic_tests
+        # added condition
+        - method: file
+          value: "*dbt_expectations*"
+
+  - name: cardinality_tests
+    description: "Cardinaliy tests"
+    definition:
+      intersection:
+        # inherits from parent selector
+        - method: selector
+          value: generic_tests
+        # added condition
+        - method: file
+          value: "*cardinality*"
+
+
+
+# failed runs
+
+  - name: failed_models
+    description: "Models that failed on the previous run"
+    definition:
+      intersection: 
+        - method: result 
+          value: fail
+        - method: state
+          value: target
