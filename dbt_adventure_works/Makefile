@@ -15,6 +15,7 @@ LOG_FILE := $(LOG_DIR)/dbt-$(TARGET)-$(TIMESTAMP).log
 # optional selectors
 SELECT ?=
 EXCLUDE ?= 
+SELECTOR ?=
 
 
 
@@ -61,6 +62,7 @@ run:
 	@echo "Running dbt models ..."
 	dbt run $(SETTINGS) $(if $(SELECT), --select $(SELECT)) \
 	                    $(if $(EXCLUDE), --exclude $(EXCLUDE)) \
+						$(if $(SELECTOR), --selector $(SELECTOR)) \
 						| tee -a $(LOG_FILE)
 	@echo "Run complete."
 
@@ -69,6 +71,7 @@ test:
 	@echo "Running tests..."
 	dbt test $(SETTINGS) $(if $(SELECT), --select $(SELECT)) \
 	                     $(if $(EXCLUDE), --exclude $(EXCLUDE)) \
+						 $(if $(SELECTOR), --selector $(SELECTOR)) \
 						 | tee -a $(LOG_FILE)
 	@echo "Tests complete."
 
