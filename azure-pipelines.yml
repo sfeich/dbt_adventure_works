@@ -8,8 +8,7 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  -- group: github-secrets
-  GITHUB_TOKEN: $(GITHUB_TOKEN)
+  - group: github-secrets
   GITHUB_REPO: 'sfeich/dbt_adventure_works'
   GITHUB_BRANCH: 'main'
   GITHUB_USER: 'sfeich'
@@ -17,10 +16,6 @@ variables:
 
 steps:
 - checkout: self
-
-- script: |
-    echo "GitHub Token length: ${#GITHUB_TOKEN}"
-  displayName: "Debug GitHub Token"
 
 - script: |
     git config --global user.email "$(GITHUB_EMAIL)"
