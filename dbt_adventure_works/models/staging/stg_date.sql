@@ -23,8 +23,8 @@ with base as (
       ,FiscalYear
       
 
-    from {{ source('sql-server-on-prem', 'DimDate') }}
-
+    from {{ source('sql-server-on-prem', 'DimDate') }} -- noqa: PRS
+ 
 )
 
 
