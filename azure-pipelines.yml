@@ -1,0 +1,38 @@
+trigger:
+  branches:
+    include:
+      - main
+
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  GITHUB_REPO: 'sfeich/dbt_adventure_works'
+  GITHUB_BRANCH: 'main'
+  GITHUB_USER: 'sfeich'
+  GITHUB_EMAIL: 's.f.eichinger@gmail.com'
+
+steps:
+- checkout: self
+
+- script: |
+    git config --global user.email "$(GITHUB_EMAIL)"
+    git config --global user.name "$(GITHUB_USER)"
+
+    echo "Auto-update at $(date)" >> update-log.txt
+
+    git add .
+
+    # check if there is anything to commit
+    if git diff --cached --quiet; then
+      echo "No changes to commit"
+    else 
+      git commit -m "Automated commit from Azure DevOps"
+      git push https://$(GITHUB_USER):$(GITHUB_TOKEN)@github.com/$(GITHUB_REPO).git $(GITHUB_BRANCH)
+    fi
+
+  env:
+    GITHUB_TOKEN: $(GITUB_TOKEN)
+  displayName: "Commit and push to GitHub"   
+
