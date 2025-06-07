@@ -1,7 +1,100 @@
 [sqlfluff]
 templater = jinja  
-dialect = tsql  
-max_line_length = 120  
+dialect = tsql 
+exclude_rules = AM03, 
+                CV06, CV09, 
+                LT12, 
+                ST02, ST09
+large_file_skip_byte_limit = 0  
+max_line_length = 0   
+
+
+
+[sqlfluff:layout:type:alias_expression]
+spacing_before = align
+align_within = select_clause
+spacing_after = touch
+
 
 [sqlfluff:indentation]
-tab_space_size = 4  
+tab_space_size = 4
+indent_unit = space
+indented_joins = true
+indented_using_on = true
+allow_implicit_indents = true
+indented_on_contents = true
+indented_ctes = true
+
+
+[sqlfluff:rules:aliasing.table]
+aliasing.table = explicit
+
+[sqlfluff:rules:aliasing.column]
+aliasing.column = explicit
+
+[sqlfluff:rules:aliasing.expression]
+allow_scalar = true
+
+[sqlfluff:rules:aliasing.forbid]
+force_enable = false
+
+
+[sqlfluff:rules:ambiguous.join]
+fully_qualify_join_types = both
+
+
+[sqlfluff:rules:ambiguous.column_references]     
+group_by_and_order_by_style = explicit 
+
+
+[sqlfluff:rules:capitalisation.keywords]
+capitalisation_policy = lower
+
+[sqlfluff:rules:capitalisation.identifiers]
+extended_capitalisation_policy = lower
+unquoted_identifiers_policy = aliases 
+
+[sqlfluff:rules:capitalisation.functions]
+extended_capitalisation_policy = lower
+
+[sqlfluff:rules:capitalisation.literals]
+capitalisation_policy = lower
+
+[sqlfluff:rules:capitalisation.types]
+extended_capitalisation_policy = lower
+
+
+[sqlfluff:rules:convention.not_equal]
+not_equals_policy = ansi
+
+[sqlfluff:rules:convention.casting_style]
+preferred_type_casting_style = cast 
+
+
+[sqlfluff:rules:jinja.padding]
+single_space = true
+
+
+[sqlfluff:rules:layout.spacing]
+no_trailing_whitespace = true
+extra_whitespace = false
+
+[sqlfluff:rules:layout.commas]
+line_position = trailing
+
+[sqlfluff:rules:layout.functions]
+no_space_after_function_name = true
+
+[sqlfluff:rules:layout.select_targets]
+wildcard_policy = single
+
+[sqlfluff:rules:layout.newlines]
+apply_to = select_statement
+num_newlines = 1
+
+[sqlfluff:rules:layout.set_operators]
+set_operator_on_new_line = ['union', 'union all', 'intersect', 'except']
+
+
+[sqlfluff:rules:structure.subquery]
+forbid_subquery_in = join
