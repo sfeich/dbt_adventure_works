@@ -8,11 +8,10 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  - group: github-secrets
-    GITHUB_REPO: 'sfeich/dbt_adventure_works'
-    GITHUB_BRANCH: 'main'
-    GITHUB_USER: 'sfeich'
-    GITHUB_EMAIL: 's.f.eichinger@gmail.com'
+  GITHUB_REPO: 'sfeich/dbt_adventure_works'
+  GITHUB_BRANCH: 'main'
+  GITHUB_USER: 'sfeich'
+  GITHUB_EMAIL: 's.f.eichinger@gmail.com'
 
 steps:
 - checkout: self
