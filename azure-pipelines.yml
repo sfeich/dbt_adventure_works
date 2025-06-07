@@ -33,6 +33,6 @@ steps:
     fi
 
   env:
-    GITHUB_TOKEN: $(GITUB_TOKEN)
+    GITHUB_TOKEN: $(GITHUB_TOKEN)
   displayName: "Commit and push to GitHub"   
 
