@@ -8,6 +8,7 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
+  -- group: github-secrets
   GITHUB_REPO: 'sfeich/dbt_adventure_works'
   GITHUB_BRANCH: 'main'
   GITHUB_USER: 'sfeich'
@@ -32,7 +33,5 @@ steps:
       git push https://$(GITHUB_USER):$(GITHUB_TOKEN)@github.com/$(GITHUB_REPO).git $(GITHUB_BRANCH)
     fi
 
-  env:
-    GITHUB_TOKEN: $(GITHUB_TOKEN)
   displayName: "Commit and push to GitHub"   
 
