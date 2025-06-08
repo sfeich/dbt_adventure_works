@@ -21,6 +21,11 @@ variables:
 steps:
 - checkout: self
 
+
+- script: |
+    curl -H "Authorization: Bearer $(GITHUB_TOKEN)" https://api.github.com/user
+  displayName: "Verify GitHub Authentication"
+
 - script: |
     git config --global user.email "$(GITHUB_EMAIL)"
     git config --global user.name "$(GITHUB_USER)"
