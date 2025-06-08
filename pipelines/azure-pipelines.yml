@@ -31,8 +31,17 @@ variables:
 jobs:
   - job: CommitAndPush
     steps:  
-      - checkout: dbt_adventure_works
-        displayName: "Checkout dbt_adventure_works repository"
+      - checkout: self
+        persistCredentials: true
+        fetchDepth: 0
+        displayName: "Checkout local repository"
+
+      - script: |
+          git fetch --all
+          git checkout main
+          git pull origin main
+        displayName: "Ensure main branch is checked out"
+
 
       - script: |
           curl -H "Authorization: Bearer $(GITHUB_TOKEN)" https://api.github.com/user
