@@ -12,7 +12,7 @@ resources:
   repositories:
     - repository: dbt_adventure_works
       type: git
-      name: sfeich/dbt_adventure_works
+      name: dbt_adventure_works
       ref: refs/heads/main
 
 
