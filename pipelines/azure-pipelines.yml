@@ -7,6 +7,15 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
+
+resources:
+  repositories:
+    - repository: dbt_adventure_works
+      type: git
+      name: sfeich/dbt_adventure_works
+      ref: refs/heads/main
+
+
 variables:
   - group: github-secrets 
   - name: GITHUB_REPO
@@ -18,29 +27,37 @@ variables:
   - name: GITHUB_EMAIL
     value: 's.f.eichinger@gmail.com'
   
-steps:
-- checkout: self
 
+jobs:
+  - job: CommitAndPush
+    steps:  
+      - checkout: dbt_adventure_works
+        displayName: "Checkout dbt_adventure_works repository"
 
-- script: |
-    curl -H "Authorization: Bearer $(GITHUB_TOKEN)" https://api.github.com/user
-  displayName: "Verify GitHub Authentication"
+      - script: |
+          curl -H "Authorization: Bearer $(GITHUB_TOKEN)" https://api.github.com/user
+        displayName: "Verify GitHub Authentication"
 
-- script: |
-    git config --global user.email "$(GITHUB_EMAIL)"
-    git config --global user.name "$(GITHUB_USER)"
+      - script: |
+          git remote set-url origin https://x-access-token:$(GITHUB_TOKEN)@github.com/$(GITHUB_REPO).git 
+        displayName: "Set GitHub remote"
 
-    echo "Auto-update at $(date)" >> update-log.txt
+      - script: |
+          git config --global user.email "$(GITHUB_EMAIL)"
+          git config --global user.name "$(GITHUB_USER)"
 
-    git add .
+          echo "Auto-update at $(date)" >> update-log.txt
 
-    # check if there is anything to commit
-    if git diff --cached --quiet; then
-      echo "No changes to commit"
-    else 
-      git commit -m "Automated commit from Azure DevOps"
-      git push https://x-access-token:$(GITHUB_TOKEN)@github.com/$(GITHUB_REPO).git $(GITHUB_BRANCH)
-    fi
+          git add .
+        displayName: "Update log and stage changes"
 
-  displayName: "Commit and push to GitHub"   
+      - script: |
+          # Check if there are any changes to commit
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else 
+            git commit -m "Automated commit from Azure DevOps"
+            git push origin $(GITHUB_BRANCH)
+          fi
+        displayName: "Commit and push changes"
 
