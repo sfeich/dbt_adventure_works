@@ -39,7 +39,9 @@ jobs:
         displayName: "Verify GitHub Authentication"
 
       - script: |
+          git checkout main
           git remote set-url origin https://x-access-token:$(GITHUB_TOKEN)@github.com/$(GITHUB_REPO).git 
+          git branch -vv                      
         displayName: "Set GitHub remote"
 
       - script: |
@@ -60,4 +62,5 @@ jobs:
             git push origin $(GITHUB_BRANCH)
           fi
         displayName: "Commit and push changes"
+
 
