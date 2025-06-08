@@ -34,7 +34,7 @@ steps:
       echo "No changes to commit"
     else 
       git commit -m "Automated commit from Azure DevOps"
-      git push https://$(GITHUB_USER):$(GITHUB_TOKEN)@github.com/$(GITHUB_REPO).git $(GITHUB_BRANCH)
+      git push https://x-access-token:$(GITHUB_TOKEN)@github.com/$(GITHUB_REPO).git $(GITHUB_BRANCH)
     fi
 
   displayName: "Commit and push to GitHub"   
