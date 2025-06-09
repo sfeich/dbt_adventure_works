@@ -1,0 +1,70 @@
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - models
+
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+
+variables:
+  - group: azure_sql_db
+  - name: DBT_PROFILES_PATH
+    value: '$(Build.SourcesDirectory)/dbt_adventure_works/config/dbt_profiles.yml'
+  - name: TARGET 
+    value: 'prod'
+  - name: DATABASE 
+    value: 'sqldb-prod-adventure-works'
+  - name: SCHEMA 
+    value: 'dbo'
+
+
+jobs:
+  - job: CommitAndPush
+    steps:  
+      - task: UsePythonVersion@0
+          inputs:
+            versionSpec: '3.12'
+        displayName: 'Use Python 3.12'
+
+      - script: |
+          python -m pip install --upgrade pip
+          pip install -r $(Build.SourcesDirectory)/requirements_devops.txt
+        displayName: 'Install dependencies from requirements_devops.txt'
+
+      - script: |
+          dbt clean
+          dbt deps
+        env:
+          DBT_PROFILES_PATH: $(DBT_PROFILES_PATH)
+          DBT_USER: $(SQL_USERNAME)
+          DBT_PASSWORD: $(SQL_PASSWORD)
+          DBT_SERVER: $(SQL_SERVER)
+          DBT_DATABASE: $(SQL_DATABASE)
+        displayName: 'Run dbt dependencies'
+
+      - script: |
+          dbt run --select stg_product
+        env:
+          DBT_PROFILES_PATH: $(DBT_PROFILES_PATH)
+          DBT_USER: $(SQL_USERNAME)
+          DBT_PASSWORD: $(SQL_PASSWORD)
+          DBT_SERVER: $(SQL_SERVER)
+          DBT_DATABASE: $(SQL_DATABASE)
+        condition: succeeded()
+        displayName: 'Run dbt models'
+
+      - script: |
+          dbt test -- select stg_product
+        env:
+          DBT_PROFILES_PATH: $(DBT_PROFILES_PATH)
+          DBT_USER: $(SQL_USERNAME)
+          DBT_PASSWORD: $(SQL_PASSWORD)
+          DBT_SERVER: $(SQL_SERVER)
+          DBT_DATABASE: $(SQL_DATABASE)
+        condition: succeeded()
+        displayName: 'Run dbt tests'
