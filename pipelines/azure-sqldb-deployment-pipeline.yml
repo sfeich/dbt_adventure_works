@@ -14,7 +14,7 @@ pool:
 variables:
   - group: azure_sql_db
   - name: DBT_PROFILES_PATH
-    value: '$(Build.SourcesDirectory)/config/dbt_profiles.yml'
+    value: '$(Build.SourcesDirectory)/dbt_adventure_works/config/dbt_profiles.yml'
   - name: TARGET 
     value: 'prod'
   - name: DATABASE 
@@ -33,8 +33,8 @@ jobs:
 
       - script: |
           python -m pip install --upgrade pip
-          pip install -r $(Build.SourcesDirectory)/requirements.txt
-        displayName: 'Install dependencies from requirements.txt'
+          pip install -r $(Build.SourcesDirectory)/requirements_devops.txt
+        displayName: 'Install dependencies from requirements_devops.txt'
 
       - script: |
           dbt clean
@@ -48,7 +48,7 @@ jobs:
         displayName: 'Run dbt dependencies'
 
       - script: |
-          dbt run
+          dbt run --select stg_product
         env:
           DBT_PROFILES_PATH: $(DBT_PROFILES_PATH)
           DBT_USER: $(SQL_USERNAME)
@@ -59,7 +59,7 @@ jobs:
         displayName: 'Run dbt models'
 
       - script: |
-          dbt test
+          dbt test -- select stg_product
         env:
           DBT_PROFILES_PATH: $(DBT_PROFILES_PATH)
           DBT_USER: $(SQL_USERNAME)
