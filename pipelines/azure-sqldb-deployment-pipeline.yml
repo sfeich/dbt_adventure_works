@@ -34,7 +34,7 @@ jobs:
       - script: |
           python -m pip install --upgrade pip
           pip install -r $(Build.SourcesDirectory)/requirements_devops.txt
-        displayName: 'Install dependencies from requirements_devops.txt'
+        displayName: 'Install dependencies from requirements file.'
 
       - script: |
           dbt clean
