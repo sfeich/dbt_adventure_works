@@ -67,6 +67,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else 
+            git pull origin $(GITHUB_BRANCH)
             git commit -m "Automated commit from Azure DevOps"
             git push origin $(GITHUB_BRANCH)
           fi
