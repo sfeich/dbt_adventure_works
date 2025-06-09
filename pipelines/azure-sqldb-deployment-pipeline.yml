@@ -27,14 +27,14 @@ jobs:
   - job: CommitAndPush
     steps:  
       - task: UsePythonVersion@0
-          inputs:
-            versionSpec: '3.12'
+        inputs:
+          versionSpec: '3.12'
         displayName: 'Use Python 3.12'
 
       - script: |
           python -m pip install --upgrade pip
           pip install -r $(Build.SourcesDirectory)/requirements_devops.txt
-        displayName: 'Install dependencies from requirements file.'
+        displayName: 'Install dependencies from devops requirements file.'
 
       - script: |
           dbt clean
