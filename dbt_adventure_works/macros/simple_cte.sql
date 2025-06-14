@@ -1,30 +1,29 @@
-/*
-This macro takes a list of tuples in the form (cte_name, referenced_model) as single argument and generates a sequence
-of CTEs composed of select star statements.
-Sourced from GitLab Data Team repo at https://gitlab.com/gitlab-data/analytics/-/blob/master/transform/snowflake-dbt/macros/utils/simple_cte.sql
-*/
+{%- macro simple_cte(tuple_list) -%}
 
-{% macro simple_cte(tuple_list) %}
 
-with{% for cte_ref in tuple_list %} {{cte_ref[0]}} as (
+{%- set cte_demarcation = ',' ~ '\n\n' -%}
 
-    select * 
+{%- if not tuple_list or tuple_list | length == 0 -%}
     
-    from {{ ref(cte_ref[1]) }}
+    {% do exceptions.raise_compiler_error("The tuple_list argument must be a non-empty list of tuples.") %}
+
+{%- endif -%}
+
+
+with {% for tuple in tuple_list -%} {{ tuple[0] }} as (
+
+    select *   
+    
+    from {{ ref(tuple[1]) }}
 
 )
     
-    {%- if not loop.last -%}
-    ,
-    {%- endif -%}
+        {%- if not loop.last -%}
+        
+            {{ cte_demarcation }}
+       
+        {%- endif -%}
     
     {%- endfor -%}
 
-{%- endmacro %}
-
-
-
-
-
-
-
+{%- endmacro -%}

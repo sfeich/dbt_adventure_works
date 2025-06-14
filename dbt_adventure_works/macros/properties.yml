@@ -1,0 +1,94 @@
+version: 2
+
+macros:
+  - name: adjustable_deduplicate
+    description: This macro is a slight variation on the standard deduplicate macro implemented for T-SQL. 
+                 It takes an additional optional parameter indicating whether deduplication takes into account ties.
+                 (Note that it is prinmarily designed for partitioning and ordering by single columns, but may be used with multi-column inputs.)
+    docs:
+      show: true
+    arguments:
+      - name: model
+        type: string
+        description: The model to be deduplicated.
+      - name: partition_by
+        type: string
+        description: The column to partition the model by.
+      - name: order_by
+        type: string
+        description: The column for ordering rows in each partition
+      - name: ties
+        type: string
+        description: Indicates whether to take into account ties. 
+                     Values in 'Y', 'N'; defaults to 'N'
+    meta:
+      author: Stefan Eichinger
+      version: 1.0
+      created_at: 2025-06-15
+      updated_at: 2025-06-15   
+
+  - name: calculate_age
+    description: This macro takes a single date column (representing the date of birth) and calculates the corresponding age.
+    docs:
+      show: true
+    arguments:
+      - name: dob_column
+        type: date
+        description:  The date of birth.  
+    meta:
+      author: Stefan Eichinger
+      version: 1.0
+      created_at: 2025-06-15
+      updated_at: 2025-06-15   
+  
+  - name: convert_date_to_int
+    description: This macro takes a single date column and converts it into an integer column of format yyyyMMdd.
+    docs:
+      show: true
+    arguments:
+      - name: date_column
+        type: date
+        description: Date column. 
+    meta:
+      author: Stefan Eichinger
+      version: 1.0
+      created_at: 2025-06-15
+      updated_at: 2025-06-15  
+
+  - name: simple_cte_star
+    description: This macro takes a list of tuples as single argument and and generates a sequence of CTEs composed of select statements listing all fields in the referenced model.
+                 Adapted from GitLab Data Team repo (https://gitlab.com/gitlab-data/analytics/-/blob/master/transform/snowflake-dbt/macros/utils)
+    docs:
+      show: true
+    arguments:
+      - name: tuple_list
+        type: list[string]
+        description:  A non-empty list of tuples of the form ('cte_name', 'referenced_model'), where the 1st element denotes
+                      the name of the CTE and the 2nd element the model referenced in the from-clause of the select * statement.  
+    meta:
+      author: Stefan Eichinger
+      version: 1.0
+      created_at: 2025-06-15
+      updated_at: 2025-06-15  
+
+  - name: simple_cte
+    description: This macro takes a list of tuples as single argument and generates a sequence of CTEs composed of select * statements.
+                 Adapted from GitLab Data Team repo (https://gitlab.com/gitlab-data/analytics/-/blob/master/transform/snowflake-dbt/macros/utils)
+    docs:
+      show: true
+    arguments:
+      - name: tuple_list
+        type: list[string]
+        description:  A non-empty list of tuples of the form ('cte_name', 'referenced_model'), where the 1st element denotes
+                      the name of the CTE and the 2nd element the model referenced in the from-clause of the select * statement. 
+    meta:
+      author: Stefan Eichinger
+      version: 1.0
+      created_at: 2025-06-15
+      updated_at: 2025-06-15      
+     
+
+
+
+
+

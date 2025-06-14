@@ -1,19 +1,21 @@
 [sqlfluff]
 templater = jinja  
 dialect = tsql 
-exclude_rules = AM03, 
+ignore_templated_areas = true
+exclude_rules = AM03, AM04,
                 CV06, CV09, 
-                LT12, 
+                LT02, LT12, 
                 ST02, ST09
 large_file_skip_byte_limit = 0  
 max_line_length = 0   
 
 
 
+
 [sqlfluff:layout:type:alias_expression]
-spacing_before = align
+spacing_before = single
 align_within = select_clause
-spacing_after = touch
+spacing_after = single
 
 
 [sqlfluff:indentation]
@@ -40,7 +42,7 @@ force_enable = false
 
 
 [sqlfluff:rules:ambiguous.join]
-fully_qualify_join_types = both
+fully_qualify_join_types = inner
 
 
 [sqlfluff:rules:ambiguous.column_references]     
@@ -67,8 +69,9 @@ extended_capitalisation_policy = lower
 [sqlfluff:rules:convention.not_equal]
 not_equals_policy = ansi
 
+
 [sqlfluff:rules:convention.casting_style]
-preferred_type_casting_style = cast 
+preferred_type_casting_style = convert
 
 
 [sqlfluff:rules:jinja.padding]
@@ -79,6 +82,10 @@ single_space = true
 no_trailing_whitespace = true
 extra_whitespace = false
 
+[sqlfluff:rules:layout.indent]
+indent_unit = space
+tab_space_size = 4
+
 [sqlfluff:rules:layout.commas]
 line_position = trailing
 
@@ -87,6 +94,8 @@ no_space_after_function_name = true
 
 [sqlfluff:rules:layout.select_targets]
 wildcard_policy = single
+select_clause_trailing_comma = require
+multiline_select = require
 
 [sqlfluff:rules:layout.newlines]
 apply_to = select_statement
