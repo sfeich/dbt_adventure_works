@@ -1,34 +1,28 @@
-WITH base AS (
-    
-    SELECT CustomerKey
-      ,CustomerAlternateKey
-      ,GeographyKey
-      ,FirstName
-      ,MiddleName
-      ,LastName
-      ,BirthDate
-      ,MaritalStatus
-      ,Gender 
-      ,YearlyIncome
-      ,TotalChildren
-      ,NumberChildrenAtHome
-      ,EnglishEducation
-      ,HouseOwnerFlag
-      ,NumberCarsOwned
-      ,DateFirstPurchase
-      ,CommuteDistance 
+with base as (
 
-    FROM {{ source('sql-server-on-prem', 'DimCustomer') }}
+    select
+      CustomerKey,
+      CustomerAlternateKey,
+      GeographyKey,
+      FirstName,
+      MiddleName,
+      LastName,
+      BirthDate,
+      MaritalStatus,
+      Gender,
+      YearlyIncome,
+      TotalChildren,
+      NumberChildrenAtHome,
+      EnglishEducation,
+      HouseOwnerFlag,
+      NumberCarsOwned,
+      DateFirstPurchase,
+      CommuteDistance
+
+    from {{ source('sql-server-on-prem', 'DimCustomer') }} -- noqa: disable=TMP, PRS
 
 )
 
+select *
 
-SELECT *
-
-FROM base
-
-
-
-
-
-
+from base
