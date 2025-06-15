@@ -1,7 +1,7 @@
 {{ simple_cte_star([
-       ('base', 'int_date')
+       ('date', 'int_date')
 ]) }}
 
 select *
 
-from base
+from date
