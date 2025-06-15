@@ -323,6 +323,13 @@ models:
           - dbt_expectations.expect_column_values_to_be_between:
               min_value: 0
               strictly: false # adds an 'or equal to' to the comparison operator
+      - name: FinishedGoodsFlag
+        description: "Indicates whether a product is a finished good"
+        data_type: varchar(3)
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ["Yes", "No"]
       - name: SafetyStockLevel
         description: "Safety stock level of the product"
         data_type: smallint 
@@ -353,13 +360,6 @@ models:
         data_tests:
           - dbt_expectations.expect_column_values_to_be_in_type_list:
               column_type_list: [decimal]
-      - name: FinishedGoodsFlag
-        description: "Indicates whether a product is a finished good"
-        data_type: varchar(3)
-        data_tests:
-          - not_null
-          - accepted_values:
-              values: ["Yes", "No"]
   
 
   - name: dim_date

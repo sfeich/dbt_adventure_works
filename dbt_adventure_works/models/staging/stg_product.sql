@@ -1,40 +1,39 @@
-WITH base AS (
-    
-    SELECT ProductKey
-      ,ProductAlternateKey
-      ,ProductSubcategoryKey
-      
+with base as (
+
+    select 
+      ProductKey,
+      ProductAlternateKey,
+      ProductSubcategoryKey,
+          
       -- product & model names
-      ,EnglishProductName
-      ,EnglishDescription
-      ,ModelName
-      ,ProductLine
+      EnglishProductName,
+      EnglishDescription,
+      ModelName,
+      ProductLine,
 
       -- product qualities
-      ,StandardCost
-      ,Color
-      ,Size
-      ,SizeRange
-      ,Weight
-      ,WeightUnitMeasureCode
-      ,SizeUnitMeasureCode
-      ,Class
-      ,Style
-      ,DaysToManufacture     
-      ,FinishedGoodsFlag
-
-      -- price & stock/reorder details
-      ,SafetyStockLevel
-      ,ReorderPoint
-      ,ListPrice     
-      ,DealerPrice
+      StandardCost,
+      Color,
+      Size,
+      SizeRange,
+      Weight,
+      WeightUnitMeasureCode,
+      SizeUnitMeasureCode,
+      Class,
+      Style,
+      DaysToManufacture,   
+      FinishedGoodsFlag,
       
-
-    FROM {{ source('sql-server-on-prem', 'DimProduct') }}
+      -- price & stock/reorder details
+      SafetyStockLevel,
+      ReorderPoint,
+      ListPrice ,    
+      DealerPrice
+      
+    from {{ source('sql-server-on-prem', 'DimProduct') }} -- noqa: disable=TMP, PRS
 
 )
 
+select *
 
-SELECT *
-
-FROM base
+from base
