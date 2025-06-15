@@ -1,19 +1,13 @@
-WITH base AS (
-    
-    SELECT ProductCategoryKey
-     ,EnglishProductCategoryName
-    
-    FROM {{ source('sql-server-on-prem', 'DimProductCategory') }}
+with base as (
+
+    select
+      ProductCategoryKey,
+      EnglishProductCategoryName
+
+    from {{ source('sql-server-on-prem', 'DimProductCategory') }} -- noqa: disable=TMP, PRS
 
 )
 
+select *
 
-SELECT *
-
-FROM base
-
-
-
-
-
-
+from base

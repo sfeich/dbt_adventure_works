@@ -1,5 +1,5 @@
 [sqlfluff]
-templater = jinja  
+templater = jinja
 dialect = tsql 
 ignore_templated_areas = true
 exclude_rules = AM03, AM04,
