@@ -1,8 +1,0 @@
-version: 2
-
-sources:
-  - name: sql-server-on-prem   # source system name
-    database: AdventureWorksDW2022   
-    schema: dbo   # schema containing the source tables
-    tables:       # table names as in the database
-      - name: DimCurrency  
