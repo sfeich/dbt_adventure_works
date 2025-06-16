@@ -548,6 +548,22 @@ models:
         description: "Describes the type of sales reason"
         data_tests:
           - not_null
+  
+  - name: int_currency
+    description: "Intermediate view of sales currency, derived from stg_currency"
+    columns:
+      - name: CurrencyKey
+        description: "Primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+          - dbt_utils.cardinality_equality:
+              field: CurrencyKey
+              to: source('sql-server-on-prem', 'DimCurrency')
+      - name: CurrencyName
+        description: "The name of the currency."
+        data_tests:
+          - not_null
     
       
   

@@ -582,6 +582,22 @@ models:
         description: "Describes the sales territory group"
         data_tests:
           - not_null
+  
+  - name: stg_currency
+    description: "Staging view of sales currency, derived from AdventureWorks core table DimCurrency"
+    columns:
+      - name: CurrencyKey
+        description: "Primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+          - dbt_utils.cardinality_equality:
+              field: CurrencyKey
+              to: source('sql-server-on-prem', 'DimCurrency')
+      - name: CurrencyName
+        description: "The name of the currency."
+        data_tests:
+          - not_null
 
       
           

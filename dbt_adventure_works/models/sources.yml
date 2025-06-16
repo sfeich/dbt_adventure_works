@@ -13,3 +13,5 @@ sources:
       - name: FactInternetSales
       - name: FactInternetSalesReason
       - name: DimSalesReason
+      - name: DimSalesTerritory
+      - name: DimCurrency 
