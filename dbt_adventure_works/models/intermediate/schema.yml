@@ -564,6 +564,48 @@ models:
         description: "The name of the currency."
         data_tests:
           - not_null
+  
+  - name: int_promotion
+    description: "Intermediate view of sales promotion, derived from stg_promotion"
+    columns:
+      - name: PromotionKey
+        description: "Primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+          - dbt_utils.cardinality_equality:
+              field: PromotionKey
+              to: source('sql-server-on-prem', 'DimPromotion')
+      - name: PromotionName
+        description: "The name of the promotion offered, in English."
+        data_tests:
+          - not_null
+      - name: PromotionType
+        description: "The type of the promotion offered, in English"
+        data_tests:
+          - not_null
+      - name: PromotionCategory
+        description: "The category of the promotion offered, in English."
+        data_tests:
+          - not_null
+      - name: DiscountPercentage
+        description: "The discount percentage offered by the promotion."
+        data_tests:
+          - not_null
+      - name: PromotionStartDate
+        description: "The promotion start date."
+        data_tests:
+          - not_null
+      - name: PromotionEndDate
+        description: "The promotion end date."
+        data_tests:
+          - not_null
+      - name: MinimumPromotionQuantity
+        description: "The minimum quantity of items to be purchased to avail the promotion."
+        data_tests:
+          - not_null
+      - name: MaximumPromotionQuantity
+        description: "The maximum quantity of items to be purchased to avail the promotion."
     
       
   
