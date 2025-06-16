@@ -15,3 +15,4 @@ sources:
       - name: DimSalesReason
       - name: DimSalesTerritory
       - name: DimCurrency 
+      - name: DimPromotion
