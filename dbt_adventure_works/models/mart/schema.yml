@@ -1,3 +1,4 @@
+
 version: 2
 
 models:
@@ -235,7 +236,6 @@ models:
                 error_if: ">10"
                 warn_if: ">0"  
   
-
   - name: dim_product
     description: "Dimension table containing product information in mart layer, derived from int_product view"
     config:
@@ -693,6 +693,61 @@ models:
         data_type: nvarchar(50)
         data_tests:
           - not_null
+  
+  - name: dim_promotion
+    description: "Dimension table in mart layer, derived from int_promotion"
+    config:
+      contract: {enforced: true}
+      post_hook: "{{ create_clustered_index(columns=['PromotionKey'], unique=True) }}"
+    columns:
+      - name: PromotionKey
+        description: "Primary key for this table"
+        data_type: int
+        data_tests:
+          - unique
+          - not_null
+          - dbt_utils.cardinality_equality:
+              field: PromotionKey
+              to: source('sql-server-on-prem', 'DimPromotion')
+      - name: PromotionName
+        description: "The name of the promotion offered, in English."
+        data_type: nvarchar(50)
+        data_tests:
+          - not_null
+      - name: PromotionType
+        description: "The type of the promotion offered, in English"
+        data_type: nvarchar(50)
+        data_tests:
+          - not_null
+      - name: PromotionCategory
+        description: "The category of the promotion offered, in English."
+        data_type: nvarchar(50)
+        data_tests:
+          - not_null
+      - name: DiscountPercentage
+        description: "The discount percentage offered by the promotion."
+        data_type: float
+        data_tests:
+          - not_null
+      - name: PromotionStartDate
+        description: "The promotion start date."
+        data_type: int
+        data_tests:
+          - not_null
+      - name: PromotionEndDate
+        description: "The promotion end date."
+        data_type: int
+        data_tests:
+          - not_null
+      - name: MinimumPromotionQuantity
+        description: "The minimum quantity of items to be purchased to avail the promotion."
+        data_type: int
+        data_tests:
+          - not_null
+      - name: MaximumPromotionQuantity
+        description: "The maximum quantity of items to be purchased to avail the promotion."
+        data_type: int
+    
 
 
       

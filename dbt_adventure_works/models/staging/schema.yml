@@ -116,7 +116,7 @@ models:
       - name: EnglishEducation
         description: "The highest education obtained by the customer (in English)"
         data_tests:
-           - not_null: # warn if null instances; only error if nulls exceed threshold
+          - not_null: # warn if null instances; only error if nulls exceed threshold
               config: 
                 severity: error
                 error_if: ">10"
@@ -153,7 +153,7 @@ models:
       - name: CommuteDistance
         description: "The commute distance to work of the customer"
         data_tests:
-           - not_null: # warn if null instances; only error if nulls exceed threshold
+          - not_null: # warn if null instances; only error if nulls exceed threshold
               config: 
                 severity: error
                 error_if: ">10"
@@ -535,6 +535,7 @@ models:
         data_tests:
           - not_null
 
+
   - name: stg_sales_reason
     description: "Staging view of sales reason, derived from AdventureWorks core table DimSalesReason"
     columns:
@@ -554,6 +555,7 @@ models:
         description: "Describes the type of sales reason"
         data_tests:
           - not_null
+
 
   - name: stg_sales_territory
     description: "Staging view of sales territory, derived from AdventureWorks core table DimSalesTerritory"
@@ -583,6 +585,7 @@ models:
         data_tests:
           - not_null
   
+
   - name: stg_currency
     description: "Staging view of sales currency, derived from AdventureWorks core table DimCurrency"
     columns:
@@ -598,9 +601,46 @@ models:
         description: "The name of the currency."
         data_tests:
           - not_null
-
-      
-          
-      
-      
-
+  
+  
+  - name: stg_promotion
+    description: "Staging view of sales promotion, derived from AdventureWorks core table DimPromotion"
+    columns:
+      - name: PromotionKey
+        description: "Primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+          - dbt_utils.cardinality_equality:
+              field: PromotionKey
+              to: source('sql-server-on-prem', 'DimPromotion')
+      - name: EnglishPromotionName
+        description: "The name of the promotion offered, in English."
+        data_tests:
+          - not_null
+      - name: EnglishPromotionType
+        description: "The type of the promotion offered, in English"
+        data_tests:
+          - not_null
+      - name: EnglishPromotionCategory
+        description: "The category of the promotion offered, in English."
+        data_tests:
+          - not_null
+      - name: DiscountPct
+        description: "The discount percentage offered by the promotion."
+        data_tests:
+          - not_null
+      - name: StartDate
+        description: "The promotion start date."
+        data_tests:
+          - not_null
+      - name: EndDate
+        description: "The promotion end date."
+        data_tests:
+          - not_null
+      - name: MinQty
+        description: "The minimum quantity of items to be purchased to avail the promotion."
+        data_tests:
+          - not_null
+      - name: MaxQty
+        description: "The maximum quantity of items to be purchased to avail the promotion."
