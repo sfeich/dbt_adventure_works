@@ -555,6 +555,34 @@ models:
         data_tests:
           - not_null
 
+  - name: stg_sales_territory
+    description: "Staging view of sales territory, derived from AdventureWorks core table DimSalesTerritory"
+    columns:
+      - name: SalesTerritoryKey
+        description: "Primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+          - dbt_utils.cardinality_equality:
+              field: SalesTerritoryKey
+              to: source('sql-server-on-prem', 'DimSalesTerritory')
+      - name: SalesTerritoryAlternateKey
+        description: "Alternate key for this table. Value '0' indicates that descriptive fields are filled with NA values."
+        data_tests:
+          - not_null
+      - name: SalesTerritoryCountry
+        description: "Describes the sales territory country. Sub-category of SalesTerritoryRegion and SalesTerritoryGroup"
+        data_tests:
+          - not_null
+      - name: SalesTerritoryRegion
+        description: "Describes the sales territory region"
+        data_tests:
+          - not_null
+      - name: SalesTerritoryGroup
+        description: "Describes the sales territory group"
+        data_tests:
+          - not_null
+
       
           
       
